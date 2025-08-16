@@ -2,41 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Vision Board AI Design System - Dreams, creativity, and manifestation */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Background system - ethereal gradients */
+    --background: 240 10% 5%;
+    --background-subtle: 240 10% 8%;
+    --foreground: 240 10% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Vision gradient system */
+    --gradient-primary: linear-gradient(135deg, hsl(270 60% 50%), hsl(240 60% 60%));
+    --gradient-secondary: linear-gradient(135deg, hsl(240 50% 40%), hsl(280 50% 50%));
+    --gradient-accent: linear-gradient(135deg, hsl(320 60% 60%), hsl(280 70% 70%));
+    --gradient-glass: linear-gradient(135deg, hsl(240 30% 15% / 0.8), hsl(270 30% 20% / 0.6));
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Glass morphism effects */
+    --glass-bg: hsl(240 20% 15% / 0.1);
+    --glass-border: hsl(240 30% 50% / 0.2);
+    --glass-shadow: 0 8px 32px hsl(240 30% 10% / 0.3);
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Card system */
+    --card: hsl(240 15% 12%);
+    --card-foreground: hsl(240 10% 90%);
+    --card-border: hsl(240 20% 20%);
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Interactive elements */
+    --primary: hsl(270 60% 50%);
+    --primary-foreground: hsl(240 10% 95%);
+    --primary-glow: hsl(270 70% 60%);
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: hsl(240 20% 18%);
+    --secondary-foreground: hsl(240 10% 85%);
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: hsl(280 60% 55%);
+    --accent-foreground: hsl(240 10% 95%);
+    --accent-glow: hsl(280 70% 65%);
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* States */
+    --muted: hsl(240 15% 15%);
+    --muted-foreground: hsl(240 10% 65%);
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: hsl(0 65% 55%);
+    --destructive-foreground: hsl(0 0% 95%);
 
-    --radius: 0.5rem;
+    /* Form elements */
+    --border: hsl(240 20% 20%);
+    --input: hsl(240 15% 12%);
+    --input-border: hsl(240 25% 25%);
+    --ring: hsl(270 60% 50%);
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -92,6 +108,7 @@ All colors MUST be HSL.
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  }
 }
 
 @layer base {
@@ -101,5 +118,54 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background: var(--gradient-primary);
+    min-height: 100vh;
+  }
+
+  /* Custom animations for vision board */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
+    50% { box-shadow: 0 0 40px hsl(var(--primary) / 0.6); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 3s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.1), transparent);
+    background-size: 200% 100%;
+  }
+
+  /* Glass morphism utility classes */
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .glass-card {
+    background: var(--gradient-glass);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }
