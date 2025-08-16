@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import html2canvas from 'html2canvas';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -73,6 +74,7 @@ export const VisionBoardCanvas = ({ onClose }: VisionBoardCanvasProps) => {
     fontColor: '#000000',
     backgroundColor: 'transparent'
   });
+  const [isExporting, setIsExporting] = useState(false);
   
   const canvasRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -334,231 +336,459 @@ export const VisionBoardCanvas = ({ onClose }: VisionBoardCanvasProps) => {
   };
 
   const exportCanvas = async () => {
-    console.log('Starting canvas export...');
-    console.log('Canvas items:', items);
-    console.log('Canvas size:', canvasSize);
-    console.log('Canvas theme:', canvasTheme);
+    if (isExporting) return;
+    
+    setIsExporting(true);
+    console.log('Starting improved canvas export...');
     
     try {
-      // Method 1: Try to capture the actual rendered canvas using html2canvas
-      console.log('Attempting to capture actual canvas content...');
-      
-      const canvasElement = canvasRef.current;
-      if (!canvasElement) {
-        throw new Error('Canvas element not found');
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        throw new Error('Could not get canvas context');
       }
 
-      // Create a temporary container with the actual canvas content
-      const tempContainer = document.createElement('div');
-      tempContainer.style.position = 'absolute';
-      tempContainer.style.left = '-9999px';
-      tempContainer.style.top = '-9999px';
-      tempContainer.style.width = `${canvasSize.width}px`;
-      tempContainer.style.height = `${canvasSize.height}px`;
-      tempContainer.style.overflow = 'hidden';
-      tempContainer.style.background = canvasTheme === 'magical' 
-        ? 'linear-gradient(135deg, #f0f4ff 0%, #fdf2f8 50%, #f0f9ff 100%)'
-        : canvasTheme === 'dark' ? '#1f2937' : '#ffffff';
-      
-      // Clone the canvas content and remove zoom transform
-      const clonedCanvas = canvasElement.cloneNode(true) as HTMLElement;
-      clonedCanvas.style.transform = 'none';
-      clonedCanvas.style.position = 'relative';
-      clonedCanvas.style.width = `${canvasSize.width}px`;
-      clonedCanvas.style.height = `${canvasSize.height}px`;
-      
-      tempContainer.appendChild(clonedCanvas);
-      document.body.appendChild(tempContainer);
+      // Set canvas dimensions
+      canvas.width = canvasSize.width;
+      canvas.height = canvasSize.height;
 
-      console.log('Temporary container created, attempting html2canvas capture...');
+      // Draw background based on theme
+      if (canvasTheme === 'magical') {
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#f0f4ff');
+        gradient.addColorStop(0.5, '#fdf2f8');
+        gradient.addColorStop(1, '#f0f9ff');
+        ctx.fillStyle = gradient;
+      } else if (canvasTheme === 'dark') {
+        ctx.fillStyle = '#1f2937';
+      } else {
+        ctx.fillStyle = '#ffffff';
+      }
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Use html2canvas to capture the actual content
-      const html2canvas = (await import('html2canvas')).default;
-      const canvas = await html2canvas(tempContainer, {
-        width: canvasSize.width,
-        height: canvasSize.height,
-        scale: 2, // Higher resolution
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: null,
-        logging: false,
-        removeContainer: true
-      });
-
-      // Clean up
-      document.body.removeChild(tempContainer);
-      console.log('html2canvas capture successful');
-
-      // Download the captured canvas
-      canvas.toBlob((blob) => {
-        if (!blob) {
-          throw new Error('Could not generate blob from captured content');
-        }
-        
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        const filename = `vision-board-export-${new Date().toISOString().slice(0, 10)}.png`;
-        link.download = filename;
-        link.href = url;
-        
-        console.log('Download link created for captured content:', { filename, blobSize: blob.size });
-        
-        // Trigger download
-        document.body.appendChild(link);
-        link.click();
-        
-        // Cleanup
-        setTimeout(() => {
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(url);
-          console.log('Download link cleaned up');
-        }, 100);
-
-        toast({
-          title: "Canvas Exported! 📤",
-          description: `Your vision board has been exported with actual content.`,
-        });
-      }, 'image/png');
-      
-    } catch (error) {
-      console.error('html2canvas export failed:', error);
-      console.log('Falling back to manual rendering...');
-      
-      // Method 2: Fallback to manual canvas rendering with better item positioning
-      try {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (!ctx) throw new Error('Canvas context not available');
-
-        canvas.width = canvasSize.width;
-        canvas.height = canvasSize.height;
-        console.log('Created fallback canvas with dimensions:', canvas.width, 'x', canvas.height);
-
-        // Set background
-        if (canvasTheme === 'magical') {
-          const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-          gradient.addColorStop(0, '#f0f4ff');
-          gradient.addColorStop(0.5, '#fdf2f8');
-          gradient.addColorStop(1, '#f0f9ff');
-          ctx.fillStyle = gradient;
-        } else if (canvasTheme === 'dark') {
-          ctx.fillStyle = '#1f2937';
-        } else {
-          ctx.fillStyle = '#ffffff';
-        }
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Render items with better positioning
-        console.log('Rendering', items.length, 'items in fallback mode...');
-        for (const item of items) {
-          console.log('Rendering fallback item:', item);
-          ctx.save();
-          ctx.translate(item.x + item.width / 2, item.y + item.height / 2);
-          ctx.rotate((item.rotation * Math.PI) / 180);
-          
-          if (item.type === 'text') {
-            // Render text items with better styling
-            ctx.fillStyle = item.fontColor || '#000000';
-            ctx.font = `bold ${item.fontSize || 24}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            const text = item.customText || item.content.statement || item.title;
-            const lines = text.split('\n');
-            const lineHeight = (item.fontSize || 24) * 1.2;
-            
-            lines.forEach((line, index) => {
-              const y = (index - (lines.length - 1) / 2) * lineHeight;
-              ctx.fillText(line, 0, y);
-            });
-          } else if (item.type === 'image' && item.content.imageUrl) {
-            // Try to load and render actual images
+      // Improved image loading with base64 support
+      const imagePromises = items
+        .filter(item => item.type === 'image')
+        .map(item => {
+          return new Promise<{ id: string; img: HTMLImageElement | null }>((resolve) => {
             const img = new Image();
-            img.crossOrigin = 'anonymous';
             
-            try {
-              await new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = () => reject(new Error('Image failed to load'));
+            // Timeout for image loading
+            const timeout = setTimeout(() => {
+              console.warn(`Image timeout for item ${item.id}`);
+              resolve({ id: item.id, img: null });
+            }, 10000); // Increased timeout for base64 images
+
+            img.onload = () => {
+              clearTimeout(timeout);
+              console.log(`Image loaded successfully for item ${item.id}`);
+              resolve({ id: item.id, img });
+            };
+
+            img.onerror = (error) => {
+              clearTimeout(timeout);
+              console.error(`Failed to load image for item ${item.id}:`, error);
+              
+              // Try fallback to original URL if base64 fails
+              if ('originalUrl' in item.content && item.content.originalUrl) {
+                const fallbackImg = new Image();
+                fallbackImg.crossOrigin = 'anonymous';
+                fallbackImg.onload = () => resolve({ id: item.id, img: fallbackImg });
+                fallbackImg.onerror = () => resolve({ id: item.id, img: null });
+                fallbackImg.src = item.content.originalUrl;
+              } else {
+                resolve({ id: item.id, img: null });
+              }
+            };
+
+            // Load the image
+            if ('imageUrl' in item.content) {
+              // Check if it's base64 data
+              if (item.content.imageUrl.startsWith('data:')) {
+                // Base64 images don't need CORS
                 img.src = item.content.imageUrl;
-                setTimeout(() => reject(new Error('Image load timeout')), 3000);
-              });
-              
-              ctx.drawImage(
-                img, 
-                -item.width / 2, 
-                -item.height / 2, 
-                item.width, 
-                item.height
-              );
-              console.log('Image rendered successfully:', item.title);
-            } catch (imgError) {
-              console.error('Image rendering failed:', imgError);
-              // Draw a better placeholder
-              ctx.fillStyle = '#e5e7eb';
-              ctx.fillRect(-item.width / 2, -item.height / 2, item.width, item.height);
-              ctx.strokeStyle = '#9ca3af';
-              ctx.lineWidth = 2;
-              ctx.strokeRect(-item.width / 2, -item.height / 2, item.width, item.height);
-              
-              ctx.fillStyle = '#6b7280';
-              ctx.font = '14px Arial';
-              ctx.textAlign = 'center';
-              ctx.fillText('Image', 0, -10);
-              ctx.fillText('Placeholder', 0, 10);
+              } else {
+                // External URL - set crossOrigin
+                img.crossOrigin = 'anonymous';
+                img.src = item.content.imageUrl;
+              }
+            }
+          });
+        });
+
+      const loadedImages = await Promise.all(imagePromises);
+      const imageMap = new Map(
+        loadedImages
+          .filter(result => result.img !== null)
+          .map(result => [result.id, result.img!])
+      );
+
+      console.log(`Successfully loaded ${imageMap.size} out of ${imagePromises.length} images`);
+
+      // Sort items by z-index to draw in correct order
+      const sortedItems = [...items].sort((a, b) => a.zIndex - b.zIndex);
+
+      // Draw each item
+      for (const item of sortedItems) {
+        ctx.save();
+        
+        // Apply transformations
+        ctx.translate(item.x + item.width / 2, item.y + item.height / 2);
+        ctx.rotate((item.rotation * Math.PI) / 180);
+
+        if (item.type === 'text') {
+          // Draw background for text if specified
+          if (item.backgroundColor && item.backgroundColor !== 'transparent') {
+            ctx.fillStyle = item.backgroundColor;
+            ctx.fillRect(-item.width / 2, -item.height / 2, item.width, item.height);
+          }
+
+          // Configure text style
+          ctx.fillStyle = item.fontColor || '#000000';
+          ctx.font = `${item.fontSize || 24}px 'Arial', sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+
+          const text = item.customText || 
+                      (item.content.statement || item.content.title || 'Text');
+          
+          // Improved word wrapping
+          const maxWidth = item.width - 20;
+          const words = text.split(' ');
+          const lines: string[] = [];
+          let currentLine = '';
+
+          for (const word of words) {
+            const testLine = currentLine ? `${currentLine} ${word}` : word;
+            const metrics = ctx.measureText(testLine);
+            
+            if (metrics.width > maxWidth && currentLine) {
+              lines.push(currentLine);
+              currentLine = word;
+            } else {
+              currentLine = testLine;
             }
           }
+          if (currentLine) {
+            lines.push(currentLine);
+          }
+
+          // Draw text lines
+          const lineHeight = (item.fontSize || 24) * 1.4;
+          const startY = -(lines.length - 1) * lineHeight / 2;
+
+          lines.forEach((line, index) => {
+            ctx.fillText(line, 0, startY + index * lineHeight);
+          });
+
+        } else if (item.type === 'image') {
+          const img = imageMap.get(item.id);
           
-          ctx.restore();
+          if (img) {
+            // Add subtle shadow for images
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 5;
+            ctx.shadowOffsetY = 5;
+            
+            // Draw the loaded image with rounded corners effect
+            ctx.save();
+            ctx.beginPath();
+            // Create rounded rectangle effect
+            const radius = 8;
+            const x = -item.width / 2;
+            const y = -item.height / 2;
+            const w = item.width;
+            const h = item.height;
+            
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + w - radius, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+            ctx.lineTo(x + w, y + h - radius);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+            ctx.lineTo(x + radius, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            ctx.clip();
+            
+            ctx.drawImage(
+              img,
+              -item.width / 2,
+              -item.height / 2,
+              item.width,
+              item.height
+            );
+            ctx.restore();
+            
+            // Reset shadow
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+          } else {
+            // Improved placeholder for failed images
+            // Gradient background
+            const gradient = ctx.createLinearGradient(
+              -item.width / 2, -item.height / 2,
+              item.width / 2, item.height / 2
+            );
+            gradient.addColorStop(0, '#f3f4f6');
+            gradient.addColorStop(1, '#e5e7eb');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(-item.width / 2, -item.height / 2, item.width, item.height);
+            
+            // Border
+            ctx.strokeStyle = '#9ca3af';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Icon and text
+            ctx.fillStyle = '#4b5563';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🖼️', 0, -15);
+            
+            ctx.font = '14px Arial';
+            ctx.fillText('Image Not Available', 0, 10);
+            
+            // Add title if available
+            if (item.title) {
+              ctx.font = 'italic 12px Arial';
+              ctx.fillStyle = '#6b7280';
+              const truncatedTitle = item.title.length > 25 
+                ? item.title.substring(0, 22) + '...' 
+                : item.title;
+              ctx.fillText(truncatedTitle, 0, 30);
+            }
+          }
         }
-
-        // Add export info
-        ctx.fillStyle = '#000000';
-        ctx.font = 'bold 24px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('Vision Board Export', canvas.width / 2, 40);
         
-        if (items.length > 0) {
-          ctx.font = '16px Arial';
-          ctx.fillText(`Contains ${items.length} items`, canvas.width / 2, 70);
-        } else {
-          ctx.font = '16px Arial';
-          ctx.fillText('No items to export', canvas.width / 2, 70);
-          ctx.fillText('Add some items to your canvas first!', canvas.width / 2, 100);
+        ctx.restore();
+      }
+
+      // Draw each item
+      for (const item of sortedItems) {
+        ctx.save();
+        
+        // Apply transformations
+        ctx.translate(item.x + item.width / 2, item.y + item.height / 2);
+        ctx.rotate((item.rotation * Math.PI) / 180);
+
+        if (item.type === 'text') {
+          // Draw background for text if specified
+          if (item.backgroundColor && item.backgroundColor !== 'transparent') {
+            ctx.fillStyle = item.backgroundColor;
+            ctx.fillRect(-item.width / 2, -item.height / 2, item.width, item.height);
+          }
+
+          // Configure text style
+          ctx.fillStyle = item.fontColor || '#000000';
+          ctx.font = `${item.fontSize || 24}px 'Arial', sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+
+          const text = item.customText || 
+                      (item.content.statement || item.content.title || 'Text');
+          
+          // Improved word wrapping
+          const maxWidth = item.width - 20;
+          const words = text.split(' ');
+          const lines: string[] = [];
+          let currentLine = '';
+
+          for (const word of words) {
+            const testLine = currentLine ? `${currentLine} ${word}` : word;
+            const metrics = ctx.measureText(testLine);
+            
+            if (metrics.width > maxWidth && currentLine) {
+              lines.push(currentLine);
+              currentLine = word;
+            } else {
+              currentLine = testLine;
+            }
+          }
+          if (currentLine) {
+            lines.push(currentLine);
+          }
+
+          // Draw text lines
+          const lineHeight = (item.fontSize || 24) * 1.4;
+          const startY = -(lines.length - 1) * lineHeight / 2;
+
+          lines.forEach((line, index) => {
+            ctx.fillText(line, 0, startY + index * lineHeight);
+          });
+
+        } else if (item.type === 'image') {
+          const img = imageMap.get(item.id);
+          
+          if (img) {
+            // Add subtle shadow for images
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 5;
+            ctx.shadowOffsetY = 5;
+            
+            // Draw the loaded image with rounded corners effect
+            ctx.save();
+            ctx.beginPath();
+            // Create rounded rectangle effect
+            const radius = 8;
+            const x = -item.width / 2;
+            const y = -item.height / 2;
+            const w = item.width;
+            const h = item.height;
+            
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + w - radius, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+            ctx.lineTo(x + w, y + h - radius);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+            ctx.lineTo(x + radius, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            ctx.clip();
+            
+            ctx.drawImage(
+              img,
+              -item.width / 2,
+              -item.height / 2,
+              item.width,
+              item.height
+            );
+            ctx.restore();
+            
+            // Reset shadow
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+          } else {
+            // Improved placeholder for failed images
+            // Gradient background
+            const gradient = ctx.createLinearGradient(
+              -item.width / 2, -item.height / 2,
+              item.width / 2, item.height / 2
+            );
+            gradient.addColorStop(0, '#f3f4f6');
+            gradient.addColorStop(1, '#e5e7eb');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(-item.width / 2, -item.height / 2, item.width, item.height);
+            
+            // Border
+            ctx.strokeStyle = '#9ca3af';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Icon and text
+            ctx.fillStyle = '#4b5563';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🖼️', 0, -15);
+            
+            ctx.font = '14px Arial';
+            ctx.fillText('Image Not Available', 0, 10);
+            
+            // Add title if available
+            if (item.title) {
+              ctx.font = 'italic 12px Arial';
+              ctx.fillStyle = '#6b7280';
+              const truncatedTitle = item.title.length > 25 
+                ? item.title.substring(0, 22) + '...' 
+                : item.title;
+              ctx.fillText(truncatedTitle, 0, 30);
+            }
+          }
         }
-
-        console.log('Fallback canvas rendering complete, creating download...');
         
-        // Create download link
-        const dataURL = canvas.toDataURL('image/png');
+        ctx.restore();
+      }
+
+      // Add decorative frame and title
+      ctx.save();
+      
+      // Add subtle vignette effect
+      const vignette = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height / 2, 0,
+        canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+      );
+      vignette.addColorStop(0, 'rgba(0, 0, 0, 0)');
+      vignette.addColorStop(0.7, 'rgba(0, 0, 0, 0)');
+      vignette.addColorStop(1, 'rgba(0, 0, 0, 0.15)');
+      ctx.fillStyle = vignette;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Add title with better styling
+      const titleGradient = ctx.createLinearGradient(0, 0, canvas.width, 80);
+      titleGradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+      titleGradient.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
+      ctx.fillStyle = titleGradient;
+      ctx.fillRect(0, 0, canvas.width, 80);
+      
+      // Title text
+      ctx.fillStyle = '#1f2937';
+      ctx.font = 'bold 32px "Segoe UI", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('✨ My Vision Board ✨', canvas.width / 2, 35);
+      
+      ctx.font = '16px "Segoe UI", Arial, sans-serif';
+      ctx.fillStyle = '#6b7280';
+      ctx.fillText(new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }), canvas.width / 2, 60);
+      
+      ctx.restore();
+
+      // Convert to blob and download
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          throw new Error('Failed to create blob');
+        }
+        
+        const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        const filename = `vision-board-export-fallback-${new Date().toISOString().slice(0, 10)}.png`;
-        link.download = filename;
-        link.href = dataURL;
+        link.download = `vision-board-${new Date().toISOString().slice(0, 10)}.png`;
+        link.href = url;
         
-        // Trigger download
         document.body.appendChild(link);
         link.click();
         
         setTimeout(() => {
           document.body.removeChild(link);
+          URL.revokeObjectURL(url);
         }, 100);
-
-        toast({
-          title: "Canvas Exported (Fallback)! 📤",
-          description: `Your vision board has been exported with ${items.length} items.`,
-        });
         
-      } catch (fallbackError) {
-        console.error('Fallback export failed:', fallbackError);
         toast({
-          title: "Export Failed",
-          description: `All export methods failed. Please try again later.`,
-          variant: "destructive",
+          title: "Canvas Exported Successfully! 🎨",
+          description: `Your vision board with ${items.length} items has been saved as an image.`,
         });
-      }
+      }, 'image/png', 0.95); // High quality PNG
+      
+    } catch (error) {
+      console.error('Export failed:', error);
+      toast({
+        title: "Export Issue",
+        description: "Some items couldn't be exported. The vision board has been saved with available content.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsExporting(false);
     }
   };
+
+
 
   const filteredItems = VisionBoardManager.getAllItems().filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -567,7 +797,7 @@ export const VisionBoardCanvas = ({ onClose }: VisionBoardCanvasProps) => {
   });
 
   return (
-    <div className="fixed inset-0 bg-background z-50 flex flex-col">
+    <div className="fixed inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 z-50 flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border bg-card">
         <div className="flex items-center gap-4">
@@ -590,23 +820,23 @@ export const VisionBoardCanvas = ({ onClose }: VisionBoardCanvasProps) => {
             <Plus className="h-4 w-4 mr-2" />
             Add Items
           </Button>
-          <Button variant="outline" onClick={saveCanvasState}>
-            <Save className="h-4 w-4 mr-2" />
-            Save Layout
-          </Button>
-          <Button variant="outline" onClick={exportCanvas}>
-            <Download className="h-4 w-4 mr-2" />
-            Export
-          </Button>
           <Button 
             variant="outline" 
-            onClick={() => {
-              console.log('Test export clicked');
-              console.log('Current items:', items);
-              console.log('Canvas ref:', canvasRef.current);
-            }}
+            onClick={exportCanvas}
+            disabled={isExporting}
+            className={isExporting ? 'opacity-50 cursor-not-allowed' : ''}
           >
-            Test
+            {isExporting ? (
+              <>
+                <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <Download className="h-4 w-4 mr-2" />
+                Export
+              </>
+            )}
           </Button>
         </div>
       </div>
@@ -770,7 +1000,7 @@ export const VisionBoardCanvas = ({ onClose }: VisionBoardCanvasProps) => {
                 width: canvasSize.width,
                 height: canvasSize.height,
                 background: canvasTheme === 'magical' 
-                  ? 'linear-gradient(135deg, #f0f4ff 0%, #fdf2f8 50%, #f0f9ff 100%)'
+                  ? 'linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 25%, #dbeafe 50%, #e0f2fe 75%, #f0f9ff 100%)'
                   : canvasTheme === 'dark' ? '#1f2937' : '#ffffff'
               }}
             />

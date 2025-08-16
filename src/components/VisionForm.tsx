@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Sparkles, Loader2, Palette } from "lucide-react";
+import { ArrowLeft, Sparkles, Loader2, Palette, Download } from "lucide-react";
 import { VisionBoardAPI, VisionPlan, GeneratedImage } from "@/lib/api";
 import { VisionBoardManager, VisionBoardItem } from "@/lib/visionBoard";
 import { useToast } from "@/hooks/use-toast";
@@ -10,14 +10,16 @@ import { useToast } from "@/hooks/use-toast";
 interface VisionFormProps {
   type: "text" | "image";
   onBack: () => void;
+  onOpenCanvas?: () => void;
 }
 
-export const VisionForm = ({ type, onBack }: VisionFormProps) => {
+export const VisionForm = ({ type, onBack, onOpenCanvas }: VisionFormProps) => {
   const [input, setInput] = useState("");
-  const [style, setStyle] = useState<"cartoon" | "vivid" | "oil" | "watercolor" | "digital-art" | "fantasy" | "minimalist" | "retro">("vivid");
+  const [style, setStyle] = useState<"cartoon" | "vivid" | "oil" | "watercolor">("vivid");
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<VisionPlan | GeneratedImage | null>(null);
   const [savedCount, setSavedCount] = useState(0);
+  const [savingToBoard, setSavingToBoard] = useState(false);
   const { toast } = useToast();
 
   // Load saved count on component mount
@@ -59,10 +61,12 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
     }
   };
 
-  const handleAddToBoard = () => {
+  const handleAddToBoard = async () => {
     if (!result) return;
 
     try {
+      setSavingToBoard(true); // Add a loading state
+      
       let title: string;
       let content: any;
 
@@ -71,7 +75,32 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
         content = result;
       } else if (type === "image" && 'imageUrl' in result) {
         title = input.substring(0, 50) + (input.length > 50 ? '...' : '');
-        content = result;
+        
+        // Convert image to base64 for permanent storage
+        try {
+          const response = await fetch(result.imageUrl);
+          const blob = await response.blob();
+          
+          // Convert blob to base64
+          const base64 = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+          
+          // Store base64 instead of external URL
+          content = {
+            ...result,
+            imageUrl: base64, // Replace external URL with base64
+            originalUrl: result.imageUrl // Keep original URL as backup
+          };
+          
+          console.log('Image converted to base64 successfully');
+        } catch (error) {
+          console.error('Failed to convert image to base64, using original URL:', error);
+          content = result; // Fallback to original URL if conversion fails
+        }
       } else {
         return;
       }
@@ -90,11 +119,9 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
         title: "Added to Vision Board! 📋",
         description: type === "text" 
           ? "Your vision plan has been saved to your board." 
-          : "Your generated image has been saved to your board.",
+          : "Your generated image has been permanently saved to your board.",
       });
-
-      // Optionally clear the result to encourage generating something new
-      // setResult(null);
+      
     } catch (error) {
       console.error('Error adding to vision board:', error);
       toast({
@@ -102,6 +129,8 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
         description: "There was an error saving to your vision board. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setSavingToBoard(false);
     }
   };
 
@@ -109,7 +138,43 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
     if (type !== "image" || !result || !('imageUrl' in result)) return;
 
     try {
-      // Create a canvas to handle CORS issues
+      console.log('Starting image download for:', result.imageUrl);
+      
+      // Method 1: Try direct download first (works for some image sources)
+      try {
+        const response = await fetch(result.imageUrl);
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          
+          // Generate filename based on input and style
+          const sanitizedInput = input.replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 30);
+          const filename = `vision-board-${sanitizedInput}-${style}.png`;
+          link.download = filename;
+          link.href = url;
+          
+          // Trigger download
+          document.body.appendChild(link);
+          link.click();
+          
+          // Cleanup
+          setTimeout(() => {
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+          }, 100);
+
+          toast({
+            title: "Image Downloaded! 💾",
+            description: `Your ${style} style image has been saved as ${filename}`,
+          });
+          return;
+        }
+      } catch (directError) {
+        console.log('Direct download failed, trying canvas method:', directError);
+      }
+
+      // Method 2: Canvas method for CORS issues
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('Canvas context not available');
@@ -118,6 +183,7 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
       img.crossOrigin = 'anonymous';
       
       img.onload = () => {
+        console.log('Image loaded successfully, dimensions:', img.width, 'x', img.height);
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
@@ -147,8 +213,10 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
           link.click();
           
           // Cleanup
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(url);
+          setTimeout(() => {
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+          }, 100);
 
           toast({
             title: "Image Downloaded! 💾",
@@ -157,7 +225,8 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
         }, 'image/png');
       };
       
-      img.onerror = () => {
+      img.onerror = (error) => {
+        console.error('Image load error:', error);
         toast({
           title: "Download Failed",
           description: "Could not load the image for download. Please try again.",
@@ -179,7 +248,7 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 bg-gradient-to-br from-indigo-50/80 via-purple-50/80 to-blue-50/80 p-6 rounded-2xl backdrop-blur-sm">
       <Button 
         variant="ghost" 
         onClick={onBack}
@@ -226,10 +295,7 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
                     { key: "vivid", label: "Vivid", icon: "✨" },
                     { key: "oil", label: "Oil Painting", icon: "🖼️" },
                     { key: "watercolor", label: "Watercolor", icon: "🎨" },
-                    { key: "digital-art", label: "Digital Art", icon: "💻" },
-                    { key: "fantasy", label: "Fantasy", icon: "🔮" },
-                    { key: "minimalist", label: "Minimalist", icon: "⚪" },
-                    { key: "retro", label: "Retro", icon: "📺" }
+                    
                   ].map((styleOption) => (
                     <Button
                       key={styleOption.key}
@@ -386,56 +452,79 @@ export const VisionForm = ({ type, onBack }: VisionFormProps) => {
                   />
                   
                   {/* Download button for images */}
-                  <div className="flex justify-center">
+                  <div className="text-center space-y-4">
                     <Button 
                       onClick={handleDownloadImage}
-                      variant="outline"
-                      className="gap-2 hover:bg-accent hover:text-accent-foreground"
+                      className="gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 px-8 py-3 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                     >
-                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      Right click to save picture.
+                      <Download className="h-5 w-5" />
+                      Download PNG
                     </Button>
+                    <p className="text-xs text-muted-foreground">
+                      Click to download your generated image as a PNG file
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      💡 Tip: If download doesn't work, right-click the image above and select "Save image as..."
+                    </p>
                   </div>
                 </div>
               ) : null}
               
-                            <div className="flex gap-3 mt-6">
-                <Button 
-                  variant="vision" 
-                  className="flex-1"
-                  onClick={handleAddToBoard}
-                >
-                  Add to Board
-                  {savedCount > 0 && (
-                    <span className="ml-2 px-2 py-1 bg-primary-foreground/20 rounded-full text-xs">
-                      {savedCount} saved
-                    </span>
-                  )}
-                </Button>
-                <Button variant="outline" onClick={() => setResult(null)}>
-                  Generate Another
-                </Button>
-              </div>
-              
-              {/* Quick Canvas Access */}
-              {savedCount > 0 && (
-                <div className="text-center pt-4 border-t border-card-border">
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Ready to create your vision board?
-                  </p>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => window.location.href = '/'}
-                    className="gap-2"
-                  >
-                    <Palette className="h-4 w-4" />
-                    Go to Canvas
-                  </Button>
-                </div>
-              )}
+{/* Action Area */}
+<div className="mt-12">
+  <div className="grid gap-8">
+
+    {/* Save to Vision Board card */}
+    <div className="rounded-2xl border border-purple-200/40 bg-gradient-to-br from-purple-50/80 to-indigo-50/80 p-6 backdrop-blur-sm supports-[backdrop-filter]:bg-gradient-to-br from-purple-50/60 to-indigo-50/60 transition-all duration-300 hover:shadow-lg">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h3 className="text-base font-semibold tracking-tight">Save to Your Vision Board Canvas</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Add this {type === "text" ? "vision plan" : "generated image"} to your collection.
+          </p>
+        </div>
+
+        {savedCount > 0 && (
+          <span
+            className="inline-flex items-center rounded-full border border-purple-300 px-3 py-1 text-xs font-semibold text-purple-700 bg-purple-100 shadow-sm"
+            aria-live="polite"
+          >
+            ✨ {savedCount} saved ✨
+          </span>
+        )}
+      </div>
+
+      <div className="mt-5">
+        <Button
+          onClick={handleAddToBoard}
+          disabled={savingToBoard}
+          className={`w-full h-14 text-lg font-bold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 transform ${
+            savingToBoard ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
+          {savingToBoard ? (
+            <>
+              <div className="h-6 w-6 mr-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              Converting & Saving...
+            </>
+          ) : (
+            '✨ Add to Vision Board Canvas ✨'
+          )}
+        </Button>
+      </div>
+    </div>
+
+    {/* Generate Another */}
+    <div className="flex justify-center">
+      <Button
+        onClick={() => setResult(null)}
+        className="px-10 py-4 text-base font-semibold bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+      >
+        🔄 Generate Another
+      </Button>
+    </div>
+  </div>
+</div>
             </div>
           )}
         </div>

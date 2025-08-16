@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { ArrowLeft, Trash2, Eye, Calendar, Sparkles, Image as ImageIcon, Download } from "lucide-react";
 import { VisionBoardManager, VisionBoardItem } from "@/lib/visionBoard";
 import { useToast } from "@/hooks/use-toast";
@@ -244,7 +246,9 @@ const VisionBoard = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <Navigation />
+      <div className="max-w-6xl mx-auto space-y-6 p-6 pt-16">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-card-foreground">My Vision Board</h1>
@@ -342,6 +346,8 @@ const VisionBoard = () => {
           ))}
         </div>
       )}
+      </div>
+      <Footer />
     </div>
   );
 };
