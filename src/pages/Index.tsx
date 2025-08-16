@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { VisionCard } from "@/components/VisionCard";
 import { VisionForm } from "@/components/VisionForm";
+import { MagicalBackground } from "@/components/MagicalBackground";
 import { Sparkles, Image, Heart } from "lucide-react";
 
 type ViewState = "home" | "text" | "image";
@@ -25,8 +26,9 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="max-w-6xl mx-auto text-center space-y-12">
+    <div className="min-h-screen flex items-center justify-center p-6 relative">
+      <MagicalBackground />
+      <div className="max-w-6xl mx-auto text-center space-y-12 relative z-10">
         {/* Hero Section */}
         <div className="space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-glass-border text-sm text-muted-foreground">
