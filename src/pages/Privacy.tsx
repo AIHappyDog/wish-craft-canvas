@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Shield, Eye, Lock, Database, Clock } from "lucide-react";
 
 const Privacy = () => {
-  const lastUpdated = "December 2024";
+  const lastUpdated = "December 2025";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
@@ -53,7 +53,7 @@ const Privacy = () => {
                       1. Introduction
                     </h2>
                     <p className="text-muted-foreground mb-3">
-                      WishCraft Vision Board ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our vision board application.
+                    Manifest Magic Vision Board ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our vision board application.
                     </p>
                   </section>
 
