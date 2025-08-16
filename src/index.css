@@ -6,54 +6,54 @@
 
 @layer base {
   :root {
-    /* Background system - dreamy ethereal gradients */
-    --background: 240 15% 8%;
-    --background-subtle: 245 20% 12%;
-    --foreground: 240 10% 95%;
+    /* Light dreamy background system */
+    --background: 250 60% 85%;
+    --background-subtle: 260 50% 82%;
+    --foreground: 260 30% 25%;
 
-    /* Dreamy gradient system with fantasy colors */
-    --gradient-primary: linear-gradient(135deg, hsl(280 70% 60%), hsl(320 80% 70%), hsl(260 60% 55%));
-    --gradient-secondary: linear-gradient(135deg, hsl(300 60% 50%), hsl(340 70% 60%), hsl(280 50% 45%));
-    --gradient-accent: linear-gradient(135deg, hsl(200 80% 70%), hsl(240 70% 80%), hsl(280 60% 70%));
+    /* Harmonized gradient system */
+    --gradient-primary: linear-gradient(135deg, hsl(260 70% 60%), hsl(240 60% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(280 50% 55%), hsl(250 55% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(220 60% 70%), hsl(200 50% 75%));
     --gradient-background: linear-gradient(135deg, hsl(250 60% 85%), hsl(280 50% 80%), hsl(220 70% 90%), hsl(260 55% 82%));
-    --gradient-glass: linear-gradient(135deg, hsl(280 40% 20% / 0.3), hsl(320 30% 25% / 0.2));
+    --gradient-glass: linear-gradient(135deg, hsl(250 30% 90% / 0.4), hsl(270 25% 85% / 0.3));
 
-    /* Magical glass morphism effects */
-    --glass-bg: hsl(280 30% 15% / 0.2);
-    --glass-border: hsl(300 50% 60% / 0.3);
-    --glass-shadow: 0 12px 40px hsl(280 40% 10% / 0.4), 0 0 80px hsl(300 60% 50% / 0.1);
-    --shadow-glow: 0 15px 35px hsl(280 70% 60% / 0.3);
-    --shadow-glow-accent: 0 15px 35px hsl(320 70% 70% / 0.3);
+    /* Refined glass morphism effects */
+    --glass-bg: hsl(250 40% 92% / 0.6);
+    --glass-border: hsl(260 50% 70% / 0.4);
+    --glass-shadow: 0 8px 32px hsl(260 30% 40% / 0.15), 0 0 60px hsl(250 40% 60% / 0.1);
+    --shadow-glow: 0 10px 30px hsl(260 60% 50% / 0.3);
+    --shadow-glow-accent: 0 10px 30px hsl(220 60% 60% / 0.25);
 
-    /* Enhanced card system */
-    --card: hsl(280 20% 15% / 0.8);
-    --card-foreground: hsl(240 15% 92%);
-    --card-border: hsl(300 40% 40% / 0.3);
+    /* Harmonized card system */
+    --card: hsl(250 40% 95% / 0.8);
+    --card-foreground: hsl(260 35% 30%);
+    --card-border: hsl(260 40% 70% / 0.5);
 
-    /* Dreamy interactive elements */
-    --primary: hsl(290 70% 65%);
-    --primary-foreground: hsl(240 10% 95%);
-    --primary-glow: hsl(310 80% 75%);
+    /* Balanced interactive elements */
+    --primary: hsl(260 65% 55%);
+    --primary-foreground: hsl(250 20% 95%);
+    --primary-glow: hsl(270 70% 65%);
 
-    --secondary: hsl(280 25% 20%);
-    --secondary-foreground: hsl(240 10% 88%);
+    --secondary: hsl(250 30% 85%);
+    --secondary-foreground: hsl(260 40% 35%);
 
-    --accent: hsl(320 75% 70%);
-    --accent-foreground: hsl(240 10% 95%);
-    --accent-glow: hsl(340 80% 80%);
+    --accent: hsl(220 60% 65%);
+    --accent-foreground: hsl(220 10% 95%);
+    --accent-glow: hsl(200 70% 75%);
 
-    /* States */
-    --muted: hsl(240 15% 15%);
-    --muted-foreground: hsl(240 10% 65%);
+    /* Complementary states */
+    --muted: hsl(250 20% 80%);
+    --muted-foreground: hsl(260 15% 50%);
 
-    --destructive: hsl(0 65% 55%);
+    --destructive: hsl(0 60% 55%);
     --destructive-foreground: hsl(0 0% 95%);
 
-    /* Form elements */
-    --border: hsl(240 20% 20%);
-    --input: hsl(240 15% 12%);
-    --input-border: hsl(240 25% 25%);
-    --ring: hsl(270 60% 50%);
+    /* Form elements adapted for light theme */
+    --border: hsl(260 30% 70%);
+    --input: hsl(250 40% 95%);
+    --input-border: hsl(260 40% 75%);
+    --ring: hsl(260 60% 55%);
 
     --radius: 1rem;
 
@@ -170,7 +170,7 @@
     -webkit-backdrop-filter: blur(25px);
   }
 
-  /* Dreamy sparkle effect */
+  /* Light theme sparkle effect */
   .sparkle::before {
     content: '';
     position: absolute;
@@ -178,9 +178,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 30%, hsl(300 80% 80% / 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, hsl(280 70% 70% / 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 60% 20%, hsl(320 90% 90% / 0.08) 0%, transparent 40%);
+    background: radial-gradient(circle at 20% 30%, hsl(260 60% 80% / 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, hsl(220 50% 85% / 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 60% 20%, hsl(240 70% 90% / 0.1) 0%, transparent 40%);
     pointer-events: none;
     border-radius: inherit;
   }
