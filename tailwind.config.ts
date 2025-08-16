@@ -108,12 +108,13 @@ export default {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-secondary': 'var(--gradient-secondary)',
 				'gradient-accent': 'var(--gradient-accent)',
-				'gradient-glass': 'var(--gradient-glass)'
+				'gradient-glass': 'var(--gradient-glass)',
+				'gradient-background': 'var(--gradient-background)'
 			},
 			boxShadow: {
 				'glass': 'var(--glass-shadow)',
-				'glow': '0 0 40px hsl(var(--primary) / 0.3)',
-				'glow-accent': '0 0 40px hsl(var(--accent) / 0.3)'
+				'glow': '0 0 50px hsl(var(--primary) / 0.4)',
+				'glow-accent': '0 0 50px hsl(var(--accent) / 0.4)'
 			}
 		}
 	},

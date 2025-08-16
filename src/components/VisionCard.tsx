@@ -12,7 +12,7 @@ interface VisionCardProps {
 
 export const VisionCard = ({ type, title, description, icon, onClick }: VisionCardProps) => {
   return (
-    <Card className="glass-card border-card-border hover:shadow-glow transition-all duration-500 group cursor-pointer animate-float"
+    <Card className="glass-card border-card-border hover:shadow-glow transition-all duration-500 group cursor-pointer sparkle relative overflow-hidden"
           onClick={onClick}>
       <div className="p-8 text-center space-y-6">
         <div className="mx-auto w-16 h-16 rounded-full bg-gradient-primary flex items-center justify-center group-hover:animate-glow transition-all duration-300">

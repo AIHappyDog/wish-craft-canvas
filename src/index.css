@@ -6,40 +6,41 @@
 
 @layer base {
   :root {
-    /* Background system - ethereal gradients */
-    --background: 240 10% 5%;
-    --background-subtle: 240 10% 8%;
+    /* Background system - dreamy ethereal gradients */
+    --background: 240 15% 8%;
+    --background-subtle: 245 20% 12%;
     --foreground: 240 10% 95%;
 
-    /* Vision gradient system */
-    --gradient-primary: linear-gradient(135deg, hsl(270 60% 50%), hsl(240 60% 60%));
-    --gradient-secondary: linear-gradient(135deg, hsl(240 50% 40%), hsl(280 50% 50%));
-    --gradient-accent: linear-gradient(135deg, hsl(320 60% 60%), hsl(280 70% 70%));
-    --gradient-glass: linear-gradient(135deg, hsl(240 30% 15% / 0.8), hsl(270 30% 20% / 0.6));
+    /* Dreamy gradient system with fantasy colors */
+    --gradient-primary: linear-gradient(135deg, hsl(280 70% 60%), hsl(320 80% 70%), hsl(260 60% 55%));
+    --gradient-secondary: linear-gradient(135deg, hsl(300 60% 50%), hsl(340 70% 60%), hsl(280 50% 45%));
+    --gradient-accent: linear-gradient(135deg, hsl(200 80% 70%), hsl(240 70% 80%), hsl(280 60% 70%));
+    --gradient-background: linear-gradient(135deg, hsl(240 30% 5%), hsl(280 40% 8%), hsl(320 30% 10%), hsl(260 35% 6%));
+    --gradient-glass: linear-gradient(135deg, hsl(280 40% 20% / 0.3), hsl(320 30% 25% / 0.2));
 
-    /* Glass morphism effects */
-    --glass-bg: hsl(240 20% 15% / 0.1);
-    --glass-border: hsl(240 30% 50% / 0.2);
-    --glass-shadow: 0 8px 32px hsl(240 30% 10% / 0.3);
-    --shadow-glow: 0 10px 30px hsl(270 60% 50% / 0.4);
-    --shadow-glow-accent: 0 10px 30px hsl(320 60% 60% / 0.4);
+    /* Magical glass morphism effects */
+    --glass-bg: hsl(280 30% 15% / 0.2);
+    --glass-border: hsl(300 50% 60% / 0.3);
+    --glass-shadow: 0 12px 40px hsl(280 40% 10% / 0.4), 0 0 80px hsl(300 60% 50% / 0.1);
+    --shadow-glow: 0 15px 35px hsl(280 70% 60% / 0.3);
+    --shadow-glow-accent: 0 15px 35px hsl(320 70% 70% / 0.3);
 
-    /* Card system */
-    --card: hsl(240 15% 12%);
-    --card-foreground: hsl(240 10% 90%);
-    --card-border: hsl(240 20% 20%);
+    /* Enhanced card system */
+    --card: hsl(280 20% 15% / 0.8);
+    --card-foreground: hsl(240 15% 92%);
+    --card-border: hsl(300 40% 40% / 0.3);
 
-    /* Interactive elements */
-    --primary: hsl(270 60% 50%);
+    /* Dreamy interactive elements */
+    --primary: hsl(290 70% 65%);
     --primary-foreground: hsl(240 10% 95%);
-    --primary-glow: hsl(270 70% 60%);
+    --primary-glow: hsl(310 80% 75%);
 
-    --secondary: hsl(240 20% 18%);
-    --secondary-foreground: hsl(240 10% 85%);
+    --secondary: hsl(280 25% 20%);
+    --secondary-foreground: hsl(240 10% 88%);
 
-    --accent: hsl(280 60% 55%);
+    --accent: hsl(320 75% 70%);
     --accent-foreground: hsl(240 10% 95%);
-    --accent-glow: hsl(280 70% 65%);
+    --accent-glow: hsl(340 80% 80%);
 
     /* States */
     --muted: hsl(240 15% 15%);
@@ -118,7 +119,7 @@
 
   body {
     @apply bg-background text-foreground;
-    background: var(--gradient-primary);
+    background: var(--gradient-background);
     min-height: 100vh;
   }
 
@@ -165,7 +166,22 @@
     background: var(--gradient-glass);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+  }
+
+  /* Dreamy sparkle effect */
+  .sparkle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 30%, hsl(300 80% 80% / 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, hsl(280 70% 70% / 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 20%, hsl(320 90% 90% / 0.08) 0%, transparent 40%);
+    pointer-events: none;
+    border-radius: inherit;
   }
 }

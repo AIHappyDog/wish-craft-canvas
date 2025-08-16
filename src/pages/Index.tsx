@@ -28,7 +28,7 @@ const Index = () => {
     <div className="min-h-screen flex items-center justify-center p-6">
       <div className="max-w-6xl mx-auto text-center space-y-12">
         {/* Hero Section */}
-        <div className="space-y-6 animate-float">
+        <div className="space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-glass-border text-sm text-muted-foreground">
             <Heart className="h-4 w-4 text-accent" />
             First generation is free — no login required
