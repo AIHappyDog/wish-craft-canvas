@@ -21,6 +21,8 @@
     --glass-bg: hsl(240 20% 15% / 0.1);
     --glass-border: hsl(240 30% 50% / 0.2);
     --glass-shadow: 0 8px 32px hsl(240 30% 10% / 0.3);
+    --shadow-glow: 0 10px 30px hsl(270 60% 50% / 0.4);
+    --shadow-glow-accent: 0 10px 30px hsl(320 60% 60% / 0.4);
 
     /* Card system */
     --card: hsl(240 15% 12%);

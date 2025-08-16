@@ -70,6 +70,10 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
+			borderColor: {
+				'glass-border': 'hsl(var(--glass-border))',
+				'card-border': 'hsl(var(--card-border))'
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
