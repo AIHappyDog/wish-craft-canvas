@@ -53,10 +53,18 @@ const Privacy = () => {
             "@type": "WebPage",
             "name": "Privacy Policy",
             "description": "Data protection and privacy policy for Manifest Magic Vision Board",
-            "url": "https://manifest-magic.vercel.app/privacy",
+            "url": "https://www.manifestmagics.com/privacy",
             "publisher": {
               "@type": "Organization",
               "name": "Manifest Magic"
+            },
+            "author": {
+              "@type": "Person",
+              "name": "Garfield",
+              "url": "https://www.manifestmagics.com/",
+              "sameAs": [
+                "https://twitter.com/buy_Ethereums"
+              ]
             }
           }
           `}
@@ -307,6 +315,18 @@ const Privacy = () => {
                         We will respond to your inquiry within 24 hours.
                       </p>
                     </div>
+                  </section>
+
+                  {/* Creator Information */}
+                  <section>
+                    <h2 className="text-xl font-semibold text-foreground mb-4">14. Creator Information</h2>
+                    <p className="text-muted-foreground mb-3">
+                      Manifest Magic Vision Board was created by Garfield. For questions, feedback, or support, you can reach the creator through:
+                    </p>
+                    <ul className="list-disc list-inside text-muted-foreground ml-4 space-y-1">
+                      <li>Email: summer.duanzy@gmail.com</li>
+                      <li>Twitter: <a href="https://twitter.com/buy_Ethereums" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80">@buy_Ethereums</a></li>
+                    </ul>
                   </section>
                 </div>
               </ScrollArea>

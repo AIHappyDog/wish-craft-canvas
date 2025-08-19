@@ -98,8 +98,20 @@ const Index = () => {
               "priceCurrency": "USD"
             },
             "creator": {
-              "@type": "Organization",
-              "name": "Manifest Magic"
+              "@type": "Person",
+              "name": "Garfield",
+              "url": "https://www.manifestmagics.com/",
+              "sameAs": [
+                "https://twitter.com/buy_Ethereums"
+              ]
+            },
+            "author": {
+              "@type": "Person",
+              "name": "Garfield",
+              "url": "https://www.manifestmagics.com/",
+              "sameAs": [
+                "https://twitter.com/buy_Ethereums"
+              ]
             }
           }
           `}
@@ -367,6 +379,27 @@ const Index = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Creator Credit Section */}
+      <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-primary mb-4">
+          <Sparkles className="h-6 w-6 text-primary-foreground" />
+        </div>
+        <p className="text-muted-foreground mb-3">
+          Created with ❤️ by{" "}
+          <a 
+            href="https://twitter.com/buy_Ethereums" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-primary hover:text-primary/80 transition-colors font-medium"
+          >
+            @buy_Ethereums
+          </a>
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Follow for updates, tips, and inspiration on your manifestation journey
+        </p>
       </div>
       
       {/* Footer */}

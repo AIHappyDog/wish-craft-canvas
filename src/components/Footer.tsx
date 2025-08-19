@@ -25,8 +25,20 @@ export const Footer = () => {
               <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
                 <Github className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
-                <Twitter className="h-4 w-4" />
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-muted-foreground hover:text-primary"
+                asChild
+              >
+                <a 
+                  href="https://twitter.com/buy_Ethereums" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label="Follow Garfield on Twitter"
+                >
+                  <Twitter className="h-4 w-4" />
+                </a>
               </Button>
             </div>
           </div>
@@ -76,14 +88,27 @@ export const Footer = () => {
           <p className="text-sm text-muted-foreground">
             © 2025 Manifest Magic. All rights reserved.
           </p>
-          <div className="flex items-center space-x-2 mt-4 md:mt-0">
-            <Mail className="h-4 w-4 text-muted-foreground" />
-            <a 
-              href="mailto:summer.duanzy@gmail.com" 
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              summer.duanzy@gmail.com
-            </a>
+          <div className="flex items-center space-x-4 mt-4 md:mt-0">
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-muted-foreground">Created by:</span>
+              <a 
+                href="https://twitter.com/buy_Ethereums" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-primary hover:text-primary/80 transition-colors font-medium"
+              >
+                @buy_Ethereums
+              </a>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Mail className="h-4 w-4 text-muted-foreground" />
+              <a 
+                href="mailto:summer.duanzy@gmail.com" 
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                summer.duanzy@gmail.com
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -3,7 +3,8 @@ import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, HelpCircle, Lightbulb, Palette, Shield } from "lucide-react";
+import { Sparkles, HelpCircle, Lightbulb, Palette, Shield, Twitter } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const FAQ = () => {
   const faqData = [
@@ -116,7 +117,15 @@ const FAQ = () => {
                   "text": "Our AI uses advanced image generation technology to create beautiful, inspiring images based on your descriptions. You can choose from different styles including cartoon, vivid, and oil painting to match your vision."
                 }
               }
-            ]
+            ],
+            "author": {
+              "@type": "Person",
+              "name": "Garfield",
+              "url": "https://www.manifestmagics.com/",
+              "sameAs": [
+                "https://twitter.com/buy_Ethereums"
+              ]
+            }
           }
           `}
         </script>
@@ -297,6 +306,31 @@ const FAQ = () => {
                 </ul>
               </div>
             </div>
+          </div>
+
+          {/* Creator Section */}
+          <div className="text-center mt-16">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-primary mb-6">
+              <Sparkles className="h-8 w-8 text-primary-foreground" />
+            </div>
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              Created with ❤️ by Garfield
+            </h3>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Manifest Magic was created to help people transform their dreams into reality. 
+              Follow the creator for updates, tips, and inspiration on your manifestation journey.
+            </p>
+            <Button variant="outline" asChild>
+              <a 
+                href="https://twitter.com/buy_Ethereums" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="gap-2"
+              >
+                <Twitter className="h-4 w-4" />
+                Follow @buy_Ethereums
+              </a>
+            </Button>
           </div>
         </div>
       </main>
