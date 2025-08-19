@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -53,10 +54,66 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>Contact Us - Manifest Magic Vision Board | Get Support & Help</title>
+        <meta name="description" content="Contact Manifest Magic for support with your vision board creation. Get help with AI image generation, goal planning, and manifestation techniques. We're here to help you succeed!" />
+        <meta name="keywords" content="contact Manifest Magic, vision board support, AI vision board help, manifestation support, goal planning help, vision board questions, AI image generation support, DALL-E help, GPT-4 support, goal setting help, manifestation help, vision board troubleshooting, AI goal planner support, life coaching help, personal development support, goal achievement help, vision planning support, AI image generation help, goal visualization support, success planning help, dream manifestation support, vision board creator help, AI life coach support, goal tracking help, milestone planning support, action steps help, personal goals support, career goals help, health goals support, financial goals help, relationship goals help, spiritual goals support, creative visualization help, law of attraction support, positive thinking help, goal mapping support, success mindset help, personal transformation support, life planning help, future planning support, dream visualization help, goal setting tools support, vision board templates help, AI-powered planning support, intelligent goal setting help, automated goal planning support, smart goal creation help, digital vision board support, online goal planner help, virtual vision board support, interactive goal setting help, dynamic goal planning support, AI-enhanced visualization support, intelligent life planning help, smart dream mapping support, automated success planning help, AI goal optimization support, intelligent milestone tracking help, smart action planning support, AI-powered manifestation support, intelligent dream realization help, smart goal achievement support, AI-enhanced success planning help, intelligent life transformation support, smart personal development help, automated goal tracking support, AI goal monitoring help, intelligent progress tracking support, smart success measurement help, AI-powered achievement support, intelligent goal completion help, smart dream fulfillment support, AI-enhanced manifestation support, intelligent success realization help, smart goal accomplishment support, AI-powered transformation support, intelligent life improvement help, smart personal growth support, automated success tracking help, AI goal analysis support, intelligent progress analysis help, smart achievement analysis support, AI-powered success support, intelligent goal success support, smart dream success support, AI-enhanced achievement support, intelligent success planning support, smart goal planning support, AI-powered life coaching support, intelligent success coaching support, smart achievement coaching support, AI-enhanced life planning support, intelligent success mapping support, smart goal mapping support, AI-powered dream planning support, intelligent success tracking support, smart achievement tracking support, AI-enhanced goal setting support, intelligent success setting support, smart achievement setting support, AI-powered manifestation tools support, intelligent success tools support, smart achievement tools support, AI-enhanced planning tools support, intelligent success planning tools support, smart achievement planning tools support, AI-powered goal tools support, intelligent success goal tools support, smart achievement goal tools support, AI-enhanced life tools support, intelligent success life tools support, smart achievement life tools support, AI-powered dream tools support, intelligent success dream tools support, smart achievement dream tools support, AI-enhanced vision tools support, intelligent success vision tools support, smart achievement vision tools support, AI-powered board tools support, intelligent success board tools support, smart achievement board tools support, AI-enhanced creation tools support, intelligent success creation tools support, smart achievement creation tools support, AI-powered visualization tools support, intelligent success visualization tools support, smart achievement visualization tools support, AI-enhanced planning software support, intelligent success planning software support, smart achievement planning software support, AI-powered goal software support, intelligent success goal software support, smart achievement goal software support, AI-enhanced life software support, intelligent success life software support, smart achievement life software support, AI-powered dream software support, intelligent success dream software support, smart achievement dream software support, AI-enhanced vision software support, intelligent success vision software support, smart achievement vision software support, AI-powered board software support, intelligent success board software support, smart achievement board software support, AI-enhanced creation software support, intelligent success creation software support, smart achievement creation software support, AI-powered visualization software support, intelligent success visualization software support, smart achievement visualization software support" />
+        <meta name="author" content="Manifest Magic" />
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="English" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://manifest-magic.vercel.app/contact" />
+        <meta property="og:title" content="Contact Us - Manifest Magic Vision Board | Get Support & Help" />
+        <meta property="og:description" content="Contact Manifest Magic for support with your vision board creation. Get help with AI image generation, goal planning, and manifestation techniques." />
+        <meta property="og:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="og:site_name" content="Manifest Magic" />
+        
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://manifest-magic.vercel.app/contact" />
+        <meta property="twitter:title" content="Contact Us - Manifest Magic Vision Board | Get Support & Help" />
+        <meta property="twitter:description" content="Contact Manifest Magic for support with your vision board creation. Get help with AI image generation, goal planning, and manifestation techniques." />
+        <meta property="twitter:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://manifest-magic.vercel.app/contact" />
+        
+        {/* Additional SEO Meta Tags */}
+        <meta name="theme-color" content="#8b5cf6" />
+        <meta name="msapplication-TileColor" content="#8b5cf6" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Manifest Magic Contact" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Contact Manifest Magic",
+            "description": "Get support and help with your vision board creation",
+            "url": "https://manifest-magic.vercel.app/contact",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "email": "summer.duanzy@gmail.com",
+              "contactType": "customer service",
+              "availableLanguage": "English"
+            }
+          }
+          `}
+        </script>
+      </Helmet>
       
-      <main className="pt-16">
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+        <Navigation />
+        
+        <main className="pt-16">
         {/* Hero Section */}
         <div className="text-center py-20 px-4">
           <div className="max-w-4xl mx-auto">
@@ -67,7 +124,7 @@ const Contact = () => {
               Get in Touch
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Have questions about WishCraft? Need help with your vision board? 
+              Have questions about Manifest Magic? Need help with your vision board? 
               We'd love to hear from you and help bring your dreams to life.
             </p>
           </div>
@@ -187,7 +244,7 @@ const Contact = () => {
                     <li>• Get help with your vision board creation</li>
                     <li>• Report bugs or suggest new features</li>
                     <li>• Ask questions about AI image generation</li>
-                    <li>• Provide feedback to improve WishCraft</li>
+                    <li>• Provide feedback to improve Manifest Magic</li>
                     <li>• Request custom features or integrations</li>
                   </ul>
                 </CardContent>
@@ -214,6 +271,7 @@ const Contact = () => {
 
       <Footer />
     </div>
+      </>
   );
 };
 

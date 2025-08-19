@@ -74,7 +74,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 Manifest Magic. All rights reserved.
+            © 2025 Manifest Magic. All rights reserved.
           </p>
           <div className="flex items-center space-x-2 mt-4 md:mt-0">
             <Mail className="h-4 w-4 text-muted-foreground" />

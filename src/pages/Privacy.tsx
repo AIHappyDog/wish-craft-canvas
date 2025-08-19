@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Shield, Eye, Lock, Database, Clock } from "lucide-react";
@@ -8,10 +9,64 @@ const Privacy = () => {
   const lastUpdated = "December 2025";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>Privacy Policy - Manifest Magic Vision Board | Data Protection & Privacy</title>
+        <meta name="description" content="Read the Privacy Policy for Manifest Magic Vision Board. Learn how we protect your data and ensure your privacy while using our AI-powered vision board application." />
+        <meta name="keywords" content="Manifest Magic privacy policy, vision board privacy, AI vision board data protection, manifestation app privacy, goal setting privacy, vision board data security, AI goal planner privacy, life coaching privacy, personal development privacy, goal achievement privacy, vision planning privacy, AI image generation privacy, goal visualization privacy, success planning privacy, dream manifestation privacy, vision board creator privacy, AI life coach privacy, goal tracking privacy, milestone planning privacy, action steps privacy, personal goals privacy, career goals privacy, health goals privacy, financial goals privacy, relationship goals privacy, spiritual goals privacy, creative visualization privacy, law of attraction privacy, positive thinking privacy, goal mapping privacy, success mindset privacy, personal transformation privacy, life planning privacy, future planning privacy, dream visualization privacy, goal setting tools privacy, vision board templates privacy, AI-powered planning privacy, intelligent goal setting privacy, automated goal planning privacy, smart goal creation privacy, digital vision board privacy, online goal planner privacy, virtual vision board privacy, interactive goal setting privacy, dynamic goal planning privacy, AI-enhanced visualization privacy, intelligent life planning privacy, smart dream mapping privacy, automated success planning privacy, AI goal optimization privacy, intelligent milestone tracking privacy, smart action planning privacy, AI-powered manifestation privacy, intelligent dream realization privacy, smart goal achievement privacy, AI-enhanced success planning privacy, intelligent life transformation privacy, smart personal development privacy, automated goal tracking privacy, AI goal monitoring privacy, intelligent progress tracking privacy, smart success measurement privacy, AI-powered achievement privacy, intelligent goal completion privacy, smart dream fulfillment privacy, AI-enhanced manifestation privacy, intelligent success realization privacy, smart goal accomplishment privacy, AI-powered transformation privacy, intelligent life improvement privacy, smart personal growth privacy, automated success tracking privacy, AI goal analysis privacy, intelligent progress analysis privacy, smart achievement analysis privacy, AI-powered success privacy, intelligent goal success privacy, smart dream success privacy, AI-enhanced achievement privacy, intelligent success planning privacy, smart goal planning privacy, AI-powered life coaching privacy, intelligent success coaching privacy, smart achievement coaching privacy, AI-enhanced life planning privacy, intelligent success mapping privacy, smart goal mapping privacy, AI-powered dream planning privacy, intelligent success tracking privacy, smart achievement tracking privacy, AI-enhanced goal setting privacy, intelligent success setting privacy, smart achievement setting privacy, AI-powered manifestation tools privacy, intelligent success tools privacy, smart achievement tools privacy, AI-enhanced planning tools privacy, intelligent success planning tools privacy, smart achievement planning tools privacy, AI-powered goal tools privacy, intelligent success goal tools privacy, smart achievement goal tools privacy, AI-enhanced life tools privacy, intelligent success life tools privacy, smart achievement life tools privacy, AI-powered dream tools privacy, intelligent success dream tools privacy, smart achievement dream tools privacy, AI-enhanced vision tools privacy, intelligent success vision tools privacy, smart achievement vision tools privacy, AI-powered board tools privacy, intelligent success board tools privacy, smart achievement board tools privacy, AI-enhanced creation tools privacy, intelligent success creation tools privacy, smart achievement creation tools privacy, AI-powered visualization tools privacy, intelligent success visualization tools privacy, smart achievement visualization tools privacy, AI-enhanced planning software privacy, intelligent success planning software privacy, smart achievement planning software privacy, AI-powered goal software privacy, intelligent success goal software privacy, smart achievement goal software privacy, AI-enhanced life software privacy, intelligent success life software privacy, smart achievement life software privacy, AI-powered dream software privacy, intelligent success dream software privacy, smart achievement dream software privacy, AI-enhanced vision software privacy, intelligent success vision software privacy, smart achievement vision software privacy, AI-powered board software privacy, intelligent success board software privacy, smart achievement board software privacy, AI-enhanced creation software privacy, intelligent success creation software privacy, smart achievement creation software privacy, AI-powered visualization software privacy, intelligent success visualization software privacy, smart achievement visualization software privacy" />
+        <meta name="author" content="Manifest Magic" />
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="English" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://manifest-magic.vercel.app/privacy" />
+        <meta property="og:title" content="Privacy Policy - Manifest Magic Vision Board | Data Protection & Privacy" />
+        <meta property="og:description" content="Read the Privacy Policy for Manifest Magic Vision Board. Learn how we protect your data and ensure your privacy while using our AI-powered vision board application." />
+        <meta property="og:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="og:site_name" content="Manifest Magic" />
+        
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://manifest-magic.vercel.app/privacy" />
+        <meta property="twitter:title" content="Privacy Policy - Manifest Magic Vision Board | Data Protection & Privacy" />
+        <meta property="twitter:description" content="Read the Privacy Policy for Manifest Magic Vision Board. Learn how we protect your data and ensure your privacy while using our AI-powered vision board application." />
+        <meta property="twitter:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://manifest-magic.vercel.app/privacy" />
+        
+        {/* Additional SEO Meta Tags */}
+        <meta name="theme-color" content="#8b5cf6" />
+        <meta name="msapplication-TileColor" content="#8b5cf6" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Manifest Magic Privacy" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Privacy Policy",
+            "description": "Data protection and privacy policy for Manifest Magic Vision Board",
+            "url": "https://manifest-magic.vercel.app/privacy",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Manifest Magic"
+            }
+          }
+          `}
+        </script>
+      </Helmet>
       
-      <main className="pt-16">
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+        <Navigation />
+        
+        <main className="pt-16">
         {/* Hero Section */}
         <div className="text-center py-20 px-4">
           <div className="max-w-4xl mx-auto">
@@ -262,6 +317,7 @@ const Privacy = () => {
 
       <Footer />
     </div>
+      </>
   );
 };
 

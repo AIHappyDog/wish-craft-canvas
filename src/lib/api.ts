@@ -1,6 +1,4 @@
-// OpenAI API service for Vision Board
-import { config } from './config';
-
+// Vision Board API service using Vercel serverless functions
 export interface VisionPlan {
   statement: string;
   milestones: string[];
@@ -13,71 +11,24 @@ export interface GeneratedImage {
 }
 
 export class VisionBoardAPI {
-  private static async makeRequest(endpoint: string, options: RequestInit = {}) {
-    console.log('Making API request to:', `${config.openai.apiUrl}${endpoint}`);
-    console.log('Request options:', options);
-    
-    const response = await fetch(`${config.openai.apiUrl}${endpoint}`, {
-      ...options,
-      headers: {
-        'Authorization': `Bearer ${config.openai.apiKey}`,
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-    });
-
-    console.log('Response status:', response.status);
-    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('API Error Response:', errorText);
-      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
-    }
-
-    return response.json();
-  }
-
   static async generateVisionPlan(wish: string): Promise<VisionPlan> {
-    const prompt = `You are a professional life coach and goal-setting expert. Transform this wish into a concrete, actionable vision plan.
-
-Wish: "${wish}"
-
-Please provide a structured response with:
-1. A clear, specific vision statement (1-2 sentences)
-2. 4-5 specific, measurable milestones to achieve this goal
-3. 4-5 actionable steps the person can take immediately
-4. 3-4 potential challenges and practical solutions
-
-Respond in this exact JSON format (no markdown, no code blocks):
-{
-  "statement": "Clear vision statement here",
-  "milestones": ["Milestone 1", "Milestone 2", "Milestone 3", "Milestone 4"],
-  "actions": ["Action 1", "Action 2", "Action 3", "Action 4"],
-  "blockers": ["Challenge 1: Solution 1", "Challenge 2: Solution 2", "Challenge 3: Solution 3"]
-}`;
-
     try {
-      const response = await this.makeRequest('/chat/completions', {
+      const response = await fetch('/api/vision-plan', {
         method: 'POST',
-        body: JSON.stringify({
-          model: config.openai.models.text,
-          messages: [
-            {
-              role: 'system',
-              content: 'You are a professional life coach and goal-setting expert. Help users transform their wishes into concrete, actionable plans.'
-            },
-            {
-              role: 'user',
-              content: prompt
-            }
-          ],
-          temperature: 0.7,
-          max_tokens: 1000
-        })
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ wish })
       });
 
-      const content = response.choices[0]?.message?.content;
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const content = data.choices[0]?.message?.content;
       if (!content) {
         throw new Error('No response content from API');
       }
@@ -169,20 +120,27 @@ Respond in this exact JSON format (no markdown, no code blocks):
     const fullPrompt = `${prompt}, ${stylePrompts[style]}, high quality, inspiring, magical`;
 
     try {
-      const response = await this.makeRequest('/images/generations', {
+      const response = await fetch('/api/image', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          model: config.openai.models.image,
           prompt: fullPrompt,
-          n: 1,
-          size: '1024x1024',
-          quality: 'hd'
+          style
         })
       });
 
-      if (response.data && response.data[0]?.url) {
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      if (data.data && data.data[0]?.url) {
         return {
-          imageUrl: response.data[0].url
+          imageUrl: data.data[0].url
         };
       } else {
         throw new Error('No image URL in response');
