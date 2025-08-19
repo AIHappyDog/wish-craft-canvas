@@ -5,10 +5,12 @@
   "framework": "vite",
   "functions": {
     "api/vision-plan.ts": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "tsconfig": "tsconfig.vercel.json"
     },
     "api/image.ts": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "tsconfig": "tsconfig.vercel.json"
     }
   }
 }
