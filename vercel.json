@@ -2,15 +2,5 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite",
-  "functions": {
-    "api/vision-plan.ts": {
-      "maxDuration": 30,
-      "tsconfig": "tsconfig.vercel.json"
-    },
-    "api/image.ts": {
-      "maxDuration": 30,
-      "tsconfig": "tsconfig.vercel.json"
-    }
-  }
+  "framework": "vite"
 }
