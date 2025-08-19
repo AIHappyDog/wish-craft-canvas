@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://manifest-magic.vercel.app/sitemap.xml
+Sitemap: https://www.manifestmagics.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

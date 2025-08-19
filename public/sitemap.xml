@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://manifest-magic.vercel.app/</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://www.manifestmagics.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://manifest-magic.vercel.app/faq</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://www.manifestmagics.com/vision-board</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.manifestmagics.com/faq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://manifest-magic.vercel.app/contact</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://www.manifestmagics.com/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://manifest-magic.vercel.app/terms</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://www.manifestmagics.com/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://manifest-magic.vercel.app/privacy</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://www.manifestmagics.com/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://manifest-magic.vercel.app/vision-board</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
   </url>
 </urlset>

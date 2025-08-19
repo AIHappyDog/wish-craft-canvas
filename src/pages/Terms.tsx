@@ -22,21 +22,21 @@ const Terms = () => {
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://manifest-magic.vercel.app/terms" />
+        <meta property="og:url" content="https://www.manifestmagics.com/terms" />
         <meta property="og:title" content="Terms of Service - Manifest Magic Vision Board | Legal Terms & Conditions" />
         <meta property="og:description" content="Read the Terms of Service for Manifest Magic Vision Board. Understand the legal terms and conditions for using our AI-powered vision board application." />
-        <meta property="og:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="og:image" content="https://www.manifestmagics.com/og-image.jpg" />
         <meta property="og:site_name" content="Manifest Magic" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://manifest-magic.vercel.app/terms" />
+        <meta property="twitter:url" content="https://www.manifestmagics.com/terms" />
         <meta property="twitter:title" content="Terms of Service - Manifest Magic Vision Board | Legal Terms & Conditions" />
         <meta property="twitter:description" content="Read the Terms of Service for Manifest Magic Vision Board. Understand the legal terms and conditions for using our AI-powered vision board application." />
-        <meta property="twitter:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.manifestmagics.com/og-image.jpg" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href="https://manifest-magic.vercel.app/terms" />
+        <link rel="canonical" href="https://www.manifestmagics.com/terms" />
         
         {/* Additional SEO Meta Tags */}
         <meta name="theme-color" content="#8b5cf6" />

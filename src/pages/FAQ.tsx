@@ -70,21 +70,21 @@ const FAQ = () => {
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://manifest-magic.vercel.app/faq" />
+        <meta property="og:url" content="https://www.manifestmagics.com/faq" />
         <meta property="og:title" content="FAQ - Manifest Magic Vision Board | Common Questions & Answers" />
         <meta property="og:description" content="Find answers to frequently asked questions about Manifest Magic Vision Board. Learn how to use AI-powered vision boards and get the most out of your manifestation journey." />
-        <meta property="og:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="og:image" content="https://www.manifestmagics.com/og-image.jpg" />
         <meta property="og:site_name" content="Manifest Magic" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://manifest-magic.vercel.app/faq" />
+        <meta property="twitter:url" content="https://www.manifestmagics.com/faq" />
         <meta property="twitter:title" content="FAQ - Manifest Magic Vision Board | Common Questions & Answers" />
         <meta property="twitter:description" content="Find answers to frequently asked questions about Manifest Magic Vision Board. Learn how to use AI-powered vision boards and get the most out of your manifestation journey." />
-        <meta property="twitter:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.manifestmagics.com/og-image.jpg" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href="https://manifest-magic.vercel.app/faq" />
+        <link rel="canonical" href="https://www.manifestmagics.com/faq" />
         
         {/* Additional SEO Meta Tags */}
         <meta name="theme-color" content="#8b5cf6" />

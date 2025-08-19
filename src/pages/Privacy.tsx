@@ -22,21 +22,21 @@ const Privacy = () => {
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://manifest-magic.vercel.app/privacy" />
+        <meta property="og:url" content="https://www.manifestmagics.com/privacy" />
         <meta property="og:title" content="Privacy Policy - Manifest Magic Vision Board | Data Protection & Privacy" />
         <meta property="og:description" content="Read the Privacy Policy for Manifest Magic Vision Board. Learn how we protect your data and ensure your privacy while using our AI-powered vision board application." />
-        <meta property="og:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="og:image" content="https://www.manifestmagics.com/og-image.jpg" />
         <meta property="og:site_name" content="Manifest Magic" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://manifest-magic.vercel.app/privacy" />
+        <meta property="twitter:url" content="https://www.manifestmagics.com/privacy" />
         <meta property="twitter:title" content="Privacy Policy - Manifest Magic Vision Board | Data Protection & Privacy" />
         <meta property="twitter:description" content="Read the Privacy Policy for Manifest Magic Vision Board. Learn how we protect your data and ensure your privacy while using our AI-powered vision board application." />
-        <meta property="twitter:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.manifestmagics.com/og-image.jpg" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href="https://manifest-magic.vercel.app/privacy" />
+        <link rel="canonical" href="https://www.manifestmagics.com/privacy" />
         
         {/* Additional SEO Meta Tags */}
         <meta name="theme-color" content="#8b5cf6" />

@@ -67,21 +67,21 @@ const Contact = () => {
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://manifest-magic.vercel.app/contact" />
+        <meta property="og:url" content="https://www.manifestmagics.com/contact" />
         <meta property="og:title" content="Contact Us - Manifest Magic Vision Board | Get Support & Help" />
         <meta property="og:description" content="Contact Manifest Magic for support with your vision board creation. Get help with AI image generation, goal planning, and manifestation techniques." />
-        <meta property="og:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="og:image" content="https://www.manifestmagics.com/og-image.jpg" />
         <meta property="og:site_name" content="Manifest Magic" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://manifest-magic.vercel.app/contact" />
+        <meta property="twitter:url" content="https://www.manifestmagics.com/contact" />
         <meta property="twitter:title" content="Contact Us - Manifest Magic Vision Board | Get Support & Help" />
         <meta property="twitter:description" content="Contact Manifest Magic for support with your vision board creation. Get help with AI image generation, goal planning, and manifestation techniques." />
-        <meta property="twitter:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.manifestmagics.com/og-image.jpg" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href="https://manifest-magic.vercel.app/contact" />
+        <link rel="canonical" href="https://www.manifestmagics.com/contact" />
         
         {/* Additional SEO Meta Tags */}
         <meta name="theme-color" content="#8b5cf6" />

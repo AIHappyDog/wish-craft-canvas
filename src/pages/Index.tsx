@@ -58,21 +58,21 @@ const Index = () => {
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://manifest-magic.vercel.app/" />
+        <meta property="og:url" content="https://www.manifestmagics.com/" />
         <meta property="og:title" content="Manifest Magic - AI-Powered Vision Board Generator" />
         <meta property="og:description" content="Transform your dreams into actionable plans with AI-generated content and images. Create powerful vision boards that manifest your future!" />
-        <meta property="og:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="og:image" content="https://www.manifestmagics.com/og-image.jpg" />
         <meta property="og:site_name" content="Manifest Magic" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://manifest-magic.vercel.app/" />
+        <meta property="twitter:url" content="https://www.manifestmagics.com/" />
         <meta property="twitter:title" content="Manifest Magic - AI-Powered Vision Board Generator" />
         <meta property="twitter:description" content="Transform your dreams into actionable plans with AI-generated content and images. Create powerful vision boards that manifest your future!" />
-        <meta property="twitter:image" content="https://manifest-magic.vercel.app/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.manifestmagics.com/og-image.jpg" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href="https://manifest-magic.vercel.app/" />
+        <link rel="canonical" href="https://www.manifestmagics.com/" />
         
         {/* Additional SEO Meta Tags */}
         <meta name="theme-color" content="#8b5cf6" />
@@ -89,7 +89,7 @@ const Index = () => {
             "@type": "WebApplication",
             "name": "Manifest Magic",
             "description": "AI-Powered Vision Board Generator for transforming dreams into actionable plans",
-            "url": "https://manifest-magic.vercel.app/",
+            "url": "https://www.manifestmagics.com/",
             "applicationCategory": "ProductivityApplication",
             "operatingSystem": "Web Browser",
             "offers": {
