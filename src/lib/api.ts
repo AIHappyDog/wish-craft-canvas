@@ -11,8 +11,18 @@ export interface GeneratedImage {
 }
 
 export class VisionBoardAPI {
+  // Check if we're in development or production
+  private static isDevelopment = import.meta.env.DEV;
+  
   static async generateVisionPlan(wish: string): Promise<VisionPlan> {
     try {
+      if (this.isDevelopment) {
+        // In development, return mock data
+        console.log('Development mode: Using mock vision plan data');
+        return this.generateMockVisionPlan(wish);
+      }
+
+      // In production, call Vercel API
       const response = await fetch('/api/vision-plan', {
         method: 'POST',
         headers: {
@@ -120,6 +130,13 @@ export class VisionBoardAPI {
     const fullPrompt = `${prompt}, ${stylePrompts[style]}, high quality, inspiring, magical`;
 
     try {
+      if (this.isDevelopment) {
+        // In development, return mock image data
+        console.log('Development mode: Using mock image data');
+        return this.generateMockImage(prompt, style);
+      }
+
+      // In production, call Vercel API
       const response = await fetch('/api/image', {
         method: 'POST',
         headers: {
@@ -155,5 +172,76 @@ export class VisionBoardAPI {
       }
       throw new Error('Failed to generate image. Please try again.');
     }
+  }
+
+  // Mock data generators for development
+  private static generateMockVisionPlan(wish: string): VisionPlan {
+    const mockPlans = [
+      {
+        statement: `Transform your wish "${wish}" into a concrete, actionable vision that you can work towards every day.`,
+        milestones: [
+          "Define your specific goal and timeline",
+          "Break down your goal into smaller, manageable steps",
+          "Create a daily action plan",
+          "Track your progress and celebrate small wins",
+          "Review and adjust your approach as needed"
+        ],
+        actions: [
+          "Write down your goal in detail",
+          "Create a vision board with images and affirmations",
+          "Set daily reminders for your actions",
+          "Find an accountability partner or mentor",
+          "Schedule regular check-ins with yourself"
+        ],
+        blockers: [
+          "Fear of failure: Start with small, low-risk actions",
+          "Lack of motivation: Focus on your 'why' and the end result",
+          "Time constraints: Break tasks into 15-minute chunks",
+          "Perfectionism: Remember that progress beats perfection"
+        ]
+      },
+      {
+        statement: `Your wish "${wish}" is the first step towards creating the life you've always dreamed of.`,
+        milestones: [
+          "Visualize your desired outcome clearly",
+          "Identify the key skills you need to develop",
+          "Create a support network of like-minded people",
+          "Establish daily habits that align with your goal",
+          "Measure and celebrate your progress regularly"
+        ],
+        actions: [
+          "Start each day by reviewing your vision",
+          "Take one small action towards your goal daily",
+          "Surround yourself with positive influences",
+          "Practice gratitude for what you already have",
+          "Learn from setbacks and keep moving forward"
+        ],
+        blockers: [
+          "Self-doubt: Focus on your past successes",
+          "Comparison: Your journey is unique to you",
+          "Impatience: Trust the process and timing",
+          "Distractions: Stay focused on your priorities"
+        ]
+      }
+    ];
+
+    // Return a random mock plan
+    return mockPlans[Math.floor(Math.random() * mockPlans.length)];
+  }
+
+  private static generateMockImage(prompt: string, style: string): GeneratedImage {
+    // Use Unsplash images as mock responses for development
+    const mockImages = [
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1024&h=1024&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1024&h=1024&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1024&h=1024&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1024&h=1024&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1024&h=1024&fit=crop&crop=center"
+    ];
+
+    // Return a random mock image
+    return {
+      imageUrl: mockImages[Math.floor(Math.random() * mockImages.length)]
+    };
   }
 }
