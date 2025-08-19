@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "functions": {
+    "api/vision-plan.ts": {
+      "maxDuration": 30
+    },
+    "api/image.ts": {
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    }
+  ],
+  "env": {
+    "OPENAI_API_KEY": "@openai_api_key"
+  }
+}
