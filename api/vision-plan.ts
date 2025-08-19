@@ -1,6 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(
+  req: VercelRequest, 
+  res: VercelResponse
+): Promise<void> {
   // Add CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -8,24 +11,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Handle preflight request
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    res.status(200).end();
+    return;
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
+    res.status(405).json({ error: 'Method Not Allowed' });
+    return;
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     console.error('Missing OPENAI_API_KEY environment variable');
-    return res.status(500).json({ error: 'Missing OPENAI_API_KEY environment variable' });
+    res.status(500).json({ error: 'Missing OPENAI_API_KEY environment variable' });
+    return;
   }
 
   try {
     const { wish } = req.body as { wish: string };
     
     if (!wish) {
-      return res.status(400).json({ error: 'Missing wish parameter' });
+      res.status(400).json({ error: 'Missing wish parameter' });
+      return;
     }
 
     console.log('Processing wish:', wish);
@@ -75,17 +82,18 @@ Respond in this exact JSON format (no markdown, no code blocks):
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenAI API Error:', errorText);
-      return res.status(response.status).json({ 
+      res.status(response.status).json({ 
         error: `OpenAI API request failed: ${response.status} ${response.statusText}` 
       });
+      return;
     }
 
     const data = await response.json();
     console.log('OpenAI API response received successfully');
-    return res.status(200).json(data);
+    res.status(200).json(data);
   } catch (error) {
     console.error('Error in vision-plan API:', error);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       error: 'Internal server error' 
     });
   }
